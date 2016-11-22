@@ -14,6 +14,7 @@ namespace wallet
 
 		public string Code;
 		public string Country;
+		public static readonly string DefaultCurrency = "EUR";
 
 		public Currency(String country, String code)
 		{

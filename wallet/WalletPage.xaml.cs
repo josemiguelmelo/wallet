@@ -32,16 +32,10 @@ namespace wallet
 
 			// TODO: find device height and make chart height to 50% 
 			int walletChartHeight = 250;
+
 			layout.Children.Add(new WalletChartView(myWallet, walletChartHeight));
 
-			Label totalAmount = new Label
-			{
-					Text = "Total Amount: " + myWallet.totalAmount("EUR").ToString("n2") + " EUR",
-	                Font = Font.BoldSystemFontOfSize(14),
-	                HorizontalOptions = LayoutOptions.Center
-	            }; 
-
-			layout.Children.Add(totalAmount);
+			layout.Children.Add(new TotalAmountView(this.myWallet, this.currencies));
 
 			Content = layout;
 		}

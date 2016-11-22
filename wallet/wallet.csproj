@@ -45,6 +45,8 @@
     <Compile Include="Source\Interfaces\ISaveAndLoad.cs" />
     <Compile Include="Source\Models\Currency.cs" />
     <Compile Include="Source\Views\WalletChartView.cs" />
+    <Compile Include="Source\Views\CurrencyPicker.cs" />
+    <Compile Include="Source\Views\TotalAmountView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
