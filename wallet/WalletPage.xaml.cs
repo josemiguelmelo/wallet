@@ -13,15 +13,18 @@ namespace wallet
 		public List<Currency> currencies;
 		public Wallet myWallet;
 
+		public WalletChartView walletChart;
+		public TotalAmountView totalAmountView;
+
 		public WalletPage()
 		{	
 			currencies = Currency.LoadCurrencies();
 			myWallet = new Wallet();
 
-			myWallet.addAmount(10.2f, new Currency("Euro", "EUR"));
-			myWallet.addAmount(20f,  new Currency("Dollar", "USD"));
-			myWallet.addAmount(25f,  new Currency("Pound", "GBP"));
-			myWallet.addAmount(52f,  new Currency("Real", "BRL"));
+			myWallet.addAmount(10.2f, currencies.Find(x => x.Code == "EUR"));
+			myWallet.addAmount(20f,  currencies.Find(x => x.Code == "USD"));
+			myWallet.addAmount(25f,  currencies.Find(x => x.Code == "GBP"));
+			myWallet.addAmount(52f, currencies.Find(x => x.Code == "BRL"));
 
 			StackLayout layout = new StackLayout
 			{
@@ -33,13 +36,23 @@ namespace wallet
 			// TODO: find device height and make chart height to 50% 
 			int walletChartHeight = 250;
 
-			layout.Children.Add(new WalletChartView(myWallet, walletChartHeight));
+			this.walletChart = new WalletChartView(myWallet, walletChartHeight);
+			this.totalAmountView = new TotalAmountView(this.myWallet, this.currencies);
 
-			layout.Children.Add(new TotalAmountView(this.myWallet, this.currencies));
+			layout.Children.Add(this.walletChart);
+
+			layout.Children.Add(this.totalAmountView);
+
+			layout.Children.Add(new AddAmountForm(this.myWallet, this.currencies, this));
 
 			Content = layout;
 		}
 
+		public void WalletUpdated()
+		{
+			this.walletChart.UpdateChart();
+			this.totalAmountView.UpdateTotalAmount();
+		}
 
 	}
 }

@@ -13,8 +13,6 @@ namespace wallet
 		Label pickerLabelText;
 		CurrencyPicker totalCurrencyPicker;
 
-		readonly string DefaultCurrency = "EUR";
-
 		public TotalAmountView(Wallet myWallet, List<Currency> currencies)
 		{
 			this.myWallet = myWallet;
@@ -85,11 +83,15 @@ namespace wallet
                     }
                     else
                     {
-						string selectedCode = totalCurrencyPicker.getSelectedCurrencyCode();
-                        totalAmountText.Text = "Total Amount: " + 
-									myWallet.totalAmount(selectedCode).ToString("n2") + " " + selectedCode;
+						this.UpdateTotalAmount();
                     }
                 };
+		}
+
+		public void UpdateTotalAmount() { 
+			string selectedCode = totalCurrencyPicker.getSelectedCurrencyCode();
+            totalAmountText.Text = "Total Amount: " + 
+						myWallet.totalAmount(selectedCode).ToString("n2") + " " + selectedCode;
 		}
 	}
 }

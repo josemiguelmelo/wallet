@@ -7,19 +7,31 @@ namespace wallet
 {
 	public class WalletChartView : StackLayout
 	{
+		Wallet myWallet;
 		public WalletChartView(Wallet myWallet, int height)
 		{
+			this.myWallet = myWallet;
 
 			Orientation = StackOrientation.Horizontal;
 			VerticalOptions = LayoutOptions.End;
 			HorizontalOptions = LayoutOptions.Center;
 			HeightRequest = height;
-		
 
+			this.CreateChart();
+		}
+
+		public void UpdateChart()
+		{
+			this.Children.Clear();
+			this.CreateChart();
+		}
+
+		private void CreateChart()
+		{
 			Color[] colors = { Color.Red, Color.Blue, Color.Green};
 			var i = 0;
 
-			foreach (KeyValuePair<Currency, float> item in myWallet.getWallet())
+			foreach (KeyValuePair<Currency, float> item in this.myWallet.getWallet())
 			{
 				Debug.WriteLine(item.Value);
 				StackLayout column = new StackLayout
