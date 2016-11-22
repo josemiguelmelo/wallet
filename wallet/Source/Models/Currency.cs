@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace wallet
@@ -16,7 +18,7 @@ namespace wallet
 		public Currency(String country, String code)
 		{
 			this.Code = code;
-			this.Code = country;
+			this.Country = country;
 		}
 
 		/**	
@@ -41,6 +43,22 @@ namespace wallet
 				}
 			}
 			return currenciesList;
+		}
+
+		public static float findRate(string fromCurrency, string toCurrency)
+		{
+			API api = new API();
+
+			float rate = 0;
+
+			Task.Run(() => { 
+				var rateResult = api.DownloadRates(fromCurrency, toCurrency).Result;
+				char[] delimiterChar = { ',' };
+				string[] responseParts = rateResult.Split(delimiterChar);
+				rate = float.Parse(responseParts[1], CultureInfo.InvariantCulture.NumberFormat);
+			}).Wait();
+
+			return rate;
 		}
 	}
 }

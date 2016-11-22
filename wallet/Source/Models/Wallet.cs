@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.Threading.Tasks;
 
 namespace wallet
 {
 	public class Wallet
 	{
-		private Dictionary<String, float> wallet;
+		private Dictionary<Currency, float> wallet;
 
 		public Wallet()
 		{
-			this.wallet = new Dictionary<string, float>();
+			this.wallet = new Dictionary<Currency, float>();
 		}
 
-		public void addAmount(float amount, String currency)
+		public void addAmount(float amount, Currency currency)
 		{
 			if (! this.wallet.ContainsKey(currency))
 				this.wallet.Add(currency, amount);
@@ -24,12 +27,20 @@ namespace wallet
 		{
 			float totalWallet = 0;
 
-			foreach(KeyValuePair<string, float> entry in this.wallet)
+			foreach(KeyValuePair<Currency, float> entry in this.wallet)
 			{
-				totalWallet = 0;
+				var rate = Currency.findRate(entry.Key.Code, currency);
+				totalWallet += (rate * entry.Value);
 			}
-
+			Debug.WriteLine(totalWallet);
 			return totalWallet;
 		}
+
+		public Dictionary<Currency, float> getWallet()
+		{
+			return this.wallet;
+		}
+
+		
 	}
 }
