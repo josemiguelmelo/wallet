@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace wallet
 {
-	public class AddAmountForm : StackLayout
+	public class RemoveAmountForm : StackLayout
 	{
 		WalletPage walletPage;
 		
@@ -16,7 +16,7 @@ namespace wallet
 		Entry amountEntry;
 		Button addButton;
 
-		public AddAmountForm(Wallet myWallet, List<Currency> currencies, WalletPage walletPage)
+		public RemoveAmountForm(Wallet myWallet, List<Currency> currencies, WalletPage walletPage)
 		{
 			this.myWallet = myWallet;
 			this.currencies = currencies;
@@ -40,7 +40,7 @@ namespace wallet
 		{
 			this.addButton = new Button
             {
-                Text = "Add",
+                Text = "Remove",
                 Font = Font.SystemFontOfSize(NamedSize.Small),
                 BorderWidth = 1,
                 HorizontalOptions = LayoutOptions.Center,
@@ -58,7 +58,7 @@ namespace wallet
 			string amountString = this.amountEntry.Text;
 			float amount = float.Parse(amountString, CultureInfo.InvariantCulture.NumberFormat);
 
-			myWallet.addAmount(amount, currencies[this.currencyPicker.SelectedIndex]);
+			myWallet.removeAmount(amount, currencies[this.currencyPicker.SelectedIndex]);
 
 			this.walletPage.WalletUpdated();
         }

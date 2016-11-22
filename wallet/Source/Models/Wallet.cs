@@ -23,6 +23,17 @@ namespace wallet
 				this.wallet[currency] += amount;
 		}
 
+		public void removeAmount(float amount, Currency currency)
+		{
+			if (!this.wallet.ContainsKey(currency))
+				return;
+			else {
+				this.wallet[currency] -= amount;
+				if (this.wallet[currency] <= 0)
+					this.wallet.Remove(currency);
+			}
+		}
+
 		public float totalAmount(String currency)
 		{
 			float totalWallet = 0;

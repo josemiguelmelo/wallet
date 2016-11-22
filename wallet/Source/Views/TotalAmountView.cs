@@ -47,6 +47,7 @@ namespace wallet
 			Orientation = StackOrientation.Vertical;
 			VerticalOptions = LayoutOptions.End;
 			HorizontalOptions = LayoutOptions.Center;
+			Padding = new Thickness(0, Device.OnPlatform(20, 20, 20), 0, 10);
 		}
 
 

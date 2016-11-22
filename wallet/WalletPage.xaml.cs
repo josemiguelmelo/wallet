@@ -44,6 +44,7 @@ namespace wallet
 			layout.Children.Add(this.totalAmountView);
 
 			layout.Children.Add(new AddAmountForm(this.myWallet, this.currencies, this));
+			layout.Children.Add(new RemoveAmountForm(this.myWallet, this.currencies, this));
 
 			Content = layout;
 		}
