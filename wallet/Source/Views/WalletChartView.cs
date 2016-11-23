@@ -8,9 +8,12 @@ namespace wallet
 	public class WalletChartView : StackLayout
 	{
 		Wallet myWallet;
-		public WalletChartView(Wallet myWallet, int height)
+		WalletPage parent;
+
+		public WalletChartView(Wallet myWallet, int height, WalletPage parent)
 		{
 			this.myWallet = myWallet;
+			this.parent = parent;
 
 			Orientation = StackOrientation.Horizontal;
 			VerticalOptions = LayoutOptions.End;
@@ -39,11 +42,15 @@ namespace wallet
 					VerticalOptions = LayoutOptions.End 
 				};
 
+				float rate = Currency.findRate(item.Key.Code,
+						this.parent.totalAmountView.totalCurrencyPicker.getSelectedCurrencyCode(),
+						this.parent.rates);
+
 				BoxView view = new BoxView
 				{
 					Color = colors[i % 3],
 					WidthRequest = 20,
-					HeightRequest = item.Value,
+					HeightRequest = item.Value * rate,
 					HorizontalOptions = LayoutOptions.Start,
 					VerticalOptions = LayoutOptions.End
 				};

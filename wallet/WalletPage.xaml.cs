@@ -46,13 +46,12 @@ namespace wallet
 			// TODO: find device height and make chart height to 50% 
 			int walletChartHeight = 250;
 
-			this.walletChart = new WalletChartView(myWallet, walletChartHeight);
 			this.totalAmountView = new TotalAmountView(this.myWallet, this.currencies);
+			this.walletChart = new WalletChartView(myWallet, walletChartHeight, this);
+
 
 			layout.Children.Add(this.walletChart);
-
 			layout.Children.Add(this.totalAmountView);
-
 			layout.Children.Add(new AddAmountForm(this.myWallet, this.currencies, this));
 			layout.Children.Add(new RemoveAmountForm(this.myWallet, this.currencies, this));
 

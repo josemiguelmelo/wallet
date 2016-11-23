@@ -11,7 +11,7 @@ namespace wallet
 
 		Label totalAmountText;
 		Label pickerLabelText;
-		CurrencyPicker totalCurrencyPicker;
+		public CurrencyPicker totalCurrencyPicker;
 
 		public TotalAmountView(Wallet myWallet, List<Currency> currencies)
 		{
