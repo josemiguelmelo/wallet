@@ -46,17 +46,42 @@ namespace wallet
 			return currenciesList;
 		}
 
-		public static float findRate(string fromCurrency, string toCurrency)
+		public static float findRate(string fromCurrency, string toCurrency, List<Rate> rates = null)
 		{
 			API api = new API();
 
 			float rate = 0;
 
-			Task.Run(() => { 
-				var rateResult = api.DownloadRates(fromCurrency, toCurrency).Result;
-				char[] delimiterChar = { ',' };
-				string[] responseParts = rateResult.Split(delimiterChar);
-				rate = float.Parse(responseParts[1], CultureInfo.InvariantCulture.NumberFormat);
+			Task.Run(async () =>
+			{
+				if (api.isInternetAvailable())
+				{
+					var rateResult = await api.GetRate(fromCurrency, toCurrency);
+					char[] delimiterChar = { ',' };
+					string[] responseParts = rateResult.Split(delimiterChar);
+
+					if (float.TryParse(responseParts[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture.NumberFormat, out rate))
+					{
+						int index = rates.FindIndex(x => (x.FromCurrency == fromCurrency && x.ToCurrency == toCurrency));
+						if (index == -1)
+							rates.Add(new Rate(fromCurrency, toCurrency, rate));
+						else rates[index].Value = rate;
+						return;
+					}
+				}
+
+				if (rates == null)
+				{
+					rate = -1; return;
+				}
+
+				Rate rateObject = rates.Find(x => (x.FromCurrency == fromCurrency && x.ToCurrency == toCurrency));
+				if (rateObject == null)
+				{
+					rate = -1; return;
+				}
+
+				rate = rateObject.Value;
 			}).Wait();
 
 			return rate;
