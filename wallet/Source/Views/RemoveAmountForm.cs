@@ -55,6 +55,11 @@ namespace wallet
         {
 			string selectedCode = this.currencyPicker.getSelectedCurrencyCode();
 
+			if (String.IsNullOrEmpty(this.amountEntry.Text))
+			{
+				return;
+			}
+
 			string amountString = this.amountEntry.Text;
 			float amount = float.Parse(amountString, CultureInfo.InvariantCulture.NumberFormat);
 
